@@ -1,5 +1,5 @@
-# Object file
-*.o
+# PyCharm
+.idea/
 
-# Ada Library Information
-*.ali
+# TopBraid
+.project
