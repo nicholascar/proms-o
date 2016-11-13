@@ -5,7 +5,7 @@
 # imports: http://purl.org/vocommons/voaf#
 # imports: http://rdfs.org/ns/void
 # imports: http://www.w3.org/2000/01/rdf-schema
-# imports: http://www.w3.org/ns/prov
+# imports: http://www.w3.org/ns/prov-o
 # imports: http://xmlns.com/foaf/0.1/
 
 @prefix : <http://promsns.org/def/proms#> .
@@ -28,10 +28,10 @@
   rdf:type voaf:Vocabulary ;
   rdf:type owl:Ontology ;
   dc:creator "Nicholas J. Car" ;
-  dc:description "All classes in this ontology are subclasses (specialisations) of PROV classes."@en ;
+  dc:description "All classes in this ontology are subclasses (specialisations) of PROV ontology classes."@en ;
   dc:publisher "CSIRO" ;
-  dc:rights "Copyright 2016 CSIRO" ;
-  dc:title "PROvenance Management System Ontology" ;
+  dc:rights "Copyright 2016 CSIRO"@en ;
+  dc:title "PROvenance Management System Ontology"@en ;
   dct:created "2014"^^xsd:gYear ;
   dct:hasPart "BasicReport" ;
   dct:hasPart "EntityComponent" ;
@@ -59,9 +59,9 @@
   owl:imports voaf: ;
   owl:imports <http://rdfs.org/ns/void> ;
   owl:imports <http://www.w3.org/2000/01/rdf-schema> ;
-  owl:imports <http://www.w3.org/ns/prov> ;
+  owl:imports <http://www.w3.org/ns/prov-o> ;
   owl:imports foaf: ;
-  owl:versionInfo "1.1" ;
+  owl:versionInfo "1.2" ;
 .
 :BasicReport
   rdf:type owl:Class ;
@@ -117,13 +117,13 @@
   rdfs:subClassOf prov:Bundle ;
   rdfs:subClassOf [
       rdf:type owl:Restriction ;
-      owl:allValuesFrom :ReportingSystem ;
-      owl:onProperty :reportingSystem ;
+      owl:cardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onProperty :nativeId ;
     ] ;
   rdfs:subClassOf [
       rdf:type owl:Restriction ;
       owl:cardinality "1"^^xsd:nonNegativeInteger ;
-      owl:onProperty :nativeId ;
+      owl:onProperty :wasReportedBy ;
     ] ;
   rdfs:subClassOf [
       rdf:type owl:Restriction ;
@@ -142,47 +142,43 @@
       owl:allValuesFrom xsd:string ;
       owl:onProperty rdfs:label ;
     ] ;
+  rdfs:subClassOf [
+      rdf:type owl:Restriction ;
+      owl:cardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onProperty prov:actedOnBehalfOf ;
+    ] ;
 .
 :endingActivity
   rdf:type owl:ObjectProperty ;
-  rdfs:comment "The final Activity, based on endedAtTime, described by the Report." ;
+  rdfs:comment "The final Activity within a Report, based on endedAtTime."@en ;
   rdfs:domain :Report ;
   rdfs:isDefinedBy <http://promsns.org/def/proms> ;
-  rdfs:label "ending Activity" ;
+  rdfs:label "ending Activity"@en ;
   rdfs:range prov:Activity ;
-  skos:prefLabel "ending Activity" ;
 .
 :nativeId
   rdf:type owl:ObjectProperty ;
-  rdfs:comment "The ID the ReportingSystem allocates to the job that generated this Report" ;
+  rdfs:comment "An ID that the ReportingSystem that generated this Report allocates to it. This is used to ensure there is an ID present in PROMS Reports that ReportingSystem owners cna use to find Reports"@en ;
   rdfs:domain :Report ;
   rdfs:isDefinedBy <http://promsns.org/def/proms> ;
-  rdfs:label "native ID" ;
+  rdfs:label "native ID"@en ;
   rdfs:range xsd:string ;
-  skos:prefLabel "native ID" ;
-.
-:query
-  rdf:type owl:ObjectProperty ;
-  rdfs:comment "The query used to generate the data represented by a ServiceEntity" ;
-  rdfs:isDefinedBy <http://promsns.org/def/proms> ;
-  rdfs:label "query" ;
-  rdfs:range xsd:string ;
-  skos:prefLabel "query" ;
-.
-:reportingSystem
-  rdf:type owl:ObjectProperty ;
-  rdfs:comment "Each Report must be associated with a ReportingSystem instance" ;
-  rdfs:domain :Report ;
-  rdfs:isDefinedBy <http://promsns.org/def/proms> ;
-  rdfs:label "from reporting system"@en ;
-  rdfs:range :ReportingSystem ;
+  rdfs:subPropertyOf dct:identifier ;
 .
 :startingActivity
   rdf:type owl:ObjectProperty ;
-  rdfs:comment "The initial Activity, based on startedAtTime, described by the Report." ;
+  rdfs:comment "The initial Activity within a Report, based on startedAtTime."@en ;
   rdfs:domain :Report ;
   rdfs:isDefinedBy <http://promsns.org/def/proms> ;
   rdfs:label "starting Activity" ;
   rdfs:range prov:Activity ;
-  skos:prefLabel "starting Activity" ;
+.
+:wasReportedBy
+  rdf:type owl:ObjectProperty ;
+  rdfs:comment "Each Report must be associated with a ReportingSystem instance"@en ;
+  rdfs:domain :Report ;
+  rdfs:isDefinedBy <http://promsns.org/def/proms> ;
+  rdfs:label "From a Reporting System"@en ;
+  rdfs:range :ReportingSystem ;
+  rdfs:subPropertyOf prov:wasAttributedTo ;
 .
