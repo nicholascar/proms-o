@@ -130,16 +130,21 @@
       owl:cardinality "1"^^xsd:nonNegativeInteger ;
       owl:onProperty rdfs:label ;
     ] ;
+  rdfs:subClassOf [
+      rdf:type owl:Restriction ;
+      owl:cardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onProperty prov:generatedAtTime ;
+    ] ;
 .
 :ReportingSystem
   rdf:type owl:Class ;
-  rdfs:comment "A ReportingSystem is a SoftwareAgent, computer or other system that is able to produce Reports, therefore it is a system that is able to trace some level of provenance for processes that it undertakes. It must be acting on behalf of another Agent (its ReportingSystemOwner)."@en ;
+  rdfs:comment "A ReportingSystem is a SoftwareAgent, computer or other system that is able to produce Reports, therefore it is a system that is able to trace some level of provenance for processes that it undertakes. It must be acting on behalf of another Agent (usually a prov:Person) when producing Reports."@en ;
   rdfs:isDefinedBy <http://promsns.org/def/proms> ;
   rdfs:label "Reporting System"@en ;
   rdfs:subClassOf prov:Agent ;
   rdfs:subClassOf [
       rdf:type owl:Restriction ;
-      owl:allValuesFrom xsd:string ;
+      owl:cardinality "1"^^xsd:nonNegativeInteger ;
       owl:onProperty rdfs:label ;
     ] ;
   rdfs:subClassOf [
